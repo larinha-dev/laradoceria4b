@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Menu Principal - CRUD Doceria</title>
+  <link rel="stylesheet" href="menu.css">
+  <style>
+    /* 🔹 Botão de Voltar */
+    #voltar-btn {
+      position: fixed;
+      top: 15px;
+      left: 15px;
+      background-color: #4b236b;
+      color: #fff;
+      border: none;
+      padding: 10px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: background 0.3s;
+      z-index: 1000;
+    }
+
+    #voltar-btn:hover {
+      background-color: #4b236b;
+    }
+
+    header {
+      text-align: center;
+      margin-top: 60px; /* 🔹 Espaço para não sobrepor o botão */
+    }
+  </style>
+</head>
+<body>
+  <!-- 🔹 Botão de voltar -->
+  <button id="voltar-btn" onclick="window.location.href='index.html'">⬅ Voltar</button>
+
+  <header>
+    <h1>Menu Principal - CRUD Doceria</h1>
+  </header>
+
+  <main>
+    <div class="menu-container">
+      <div class="menu-card">
+        <h2>🍩 Doce</h2>
+        <a href="doce/doce.html">Acessar</a>
+      </div>
+
+      <div class="menu-card">
+        <h2>🥚 Ingrediente</h2>
+        <a href="ingrediente/ingrediente.html">Acessar</a>
+      </div>
+
+      <div class="menu-card">
+        <h2>🧁 Cliente</h2>
+        <a href="cliente/cliente.html">Acessar</a>
+      </div>
+
+      <div class="menu-card">
+        <h2>🍫 Funcionário</h2>
+        <a href="funcionario/funcionario.html">Acessar</a>
+      </div>
+
+      <div class="menu-card">
+        <h2>🍪 Pedido</h2>
+        <a href="pedido/pedido.html">Acessar</a>
+      </div>
+
+      <div class="menu-card">
+        <h2>👤 Pessoa</h2>
+        <a href="pessoa/pessoa.html">Acessar</a>
+      </div>
+      
+      <div class="menu-card">
+        <h2>📊 Relatórios</h2>
+        <a href="menu-relatorios.html">Acessar</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Sistema de Doceria</p>
+  </footer>
+
+  <script>
+    // Proteger acesso ao menu - apenas gerentes podem acessar
+    window.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('token');
+      
+      if (!token) {
+        alert('❌ Acesso negado. Você precisa estar logado.');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      // Verificar se é gerente usando endpoint leve
+      const checkGerente = async () => {
+        try {
+          // Tenta primeiro com token do localStorage (Authorization header)
+          if (token) {
+            const r = await fetch('/api/auth/is-gerente', { headers: { 'Authorization': `Bearer ${token}` } });
+            if (r.ok) {
+              const d = await r.json();
+              if (d && d.isGerente) return true;
+            }
+          }
+
+          // Se não há token ou autorização falhou, tenta com cookie (credentials include)
+          const r2 = await fetch('/api/auth/is-gerente', { credentials: 'include' });
+          if (r2.ok) {
+            const d2 = await r2.json();
+            if (d2 && d2.isGerente) return true;
+          }
+
+          return false;
+        } catch (err) {
+          console.error('Erro verificando gerente:', err);
+          return false;
+        }
+      };
+
+      checkGerente().then(isG => {
+        if (!isG) {
+          alert('❌ Acesso negado. Apenas gerentes podem acessar este menu.');
+          window.location.href = 'index.html';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,211 @@
+/* ---------------------- */
+/* Estética geral fofo/candy 💜🍬 */
+/* ---------------------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #f9e6ff;
+  color: #4b236b;
+  padding: 20px;
+}
+
+/* ---------------------- */
+/* Cabeçalho */
+/* ---------------------- */
+
+header {
+  text-align: center;
+  background: #c38bff;
+  padding: 25px;
+  border-radius: 18px;
+  color: white;
+  font-weight: bold;
+  box-shadow: 0 4px 12px rgba(110, 0, 150, 0.25);
+}
+
+header h1 {
+  font-size: 2.5rem;
+}
+
+/* ---------------------- */
+/* Área do formulário */
+/* ---------------------- */
+
+.form-section {
+  background: #ffffff;
+  padding: 30px;
+  margin-top: 25px;
+  border-radius: 20px;
+  border: 2px solid #e5ccff;
+  box-shadow: 0 3px 10px rgba(100, 0, 130, 0.1);
+}
+
+.form-section h2 {
+  color: #944de6;
+  margin-bottom: 15px;
+}
+
+/* ---------------------- */
+/* Campos e inputs */
+/* ---------------------- */
+
+.search-container {
+  margin-bottom: 20px;
+}
+
+.search-input-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+input[type="number"],
+input[type="text"] {
+  border: 2px solid #d7b4ff;
+  padding: 10px;
+  border-radius: 10px;
+  width: 250px;
+  transition: 0.25s ease;
+  outline: none;
+}
+
+input:focus {
+  border-color: #9b4cff;
+  box-shadow: 0 0 8px #dfc2ff;
+}
+
+/* ---------------------- */
+/* Fieldset */
+/* ---------------------- */
+
+fieldset {
+  border: 2px dashed #d8baff;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 20px;
+}
+
+legend {
+  background: #c68eff;
+  padding: 5px 12px;
+  border-radius: 10px;
+  font-weight: bold;
+  color: white;
+}
+
+/* ---------------------- */
+/* Botões */
+/* ---------------------- */
+
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s ease;
+}
+
+/* Cores das classes */
+
+.btn-icon {
+  background: #e7c1ff;
+  color: #4b2370;
+}
+
+.btn-primary {
+  background: #b06cff;
+  color: white;
+}
+
+.btn-secondary {
+  background: #8d55d4;
+  color: white;
+}
+
+.btn-danger {
+  background: #ff70a5;
+  color: white;
+}
+
+.btn-save {
+  background: #5fd69a;
+  color: white;
+}
+
+.btn-cancel {
+  background: #d8c7ef;
+  color: #4b2370;
+}
+
+button:hover {
+  opacity: 0.9;
+  transform: scale(1.04);
+}
+
+/* ---------------------- */
+/* Tabela */
+/* ---------------------- */
+
+.table-container {
+  margin-top: 30px;
+  background: #ffffff;
+  padding: 20px;
+  border-radius: 18px;
+  border: 2px solid #e4ccff;
+  box-shadow: 0 2px 8px rgba(120, 0, 150, 0.15);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  background: #d4b1ff;
+  color: white;
+}
+
+th, td {
+  padding: 12px 10px;
+  border-bottom: 2px solid #f0ddff;
+}
+
+tr:hover {
+  background: #f6edff;
+}
+
+/* ---------------------- */
+/* Rodapé */
+/* ---------------------- */
+
+footer {
+  margin-top: 25px;
+  text-align: center;
+  padding: 15px;
+  background: #c38bff;
+  color: white;
+  border-radius: 15px;
+}
+
+/* ---------------------- */
+/* Mensagens */
+/* ---------------------- */
+
+.message-container {
+  position: fixed;
+  right: 20px;
+  bottom: 20px;
+  background: #b673ff;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  display: none;
+  box-shadow: 0 3px 10px rgba(90, 0, 130, 0.3);
+}

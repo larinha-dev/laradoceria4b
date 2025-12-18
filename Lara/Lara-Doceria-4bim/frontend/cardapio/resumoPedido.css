@@ -1,0 +1,115 @@
+/* resumoPedido.css */
+/* ======== ESTILO GERAL ======== */
+body {
+  font-family: "Poppins", sans-serif;
+  background: #f7ecff; /* lilás pastel bem claro */
+  color: #4b2a63; /* roxo suave */
+  margin: 0;
+  padding: 0;
+}
+
+/* ======== CABEÇALHO ======== */
+header {
+  background-color: #b47ad8; /* roxo pastel */
+  color: white;
+  padding: 1rem;
+  text-align: center;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  margin: 0;
+  font-weight: 600;
+}
+
+/* ======== CONTEÚDO ======== */
+main {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 30px;
+}
+
+/* Caixa de resumo */
+#resumoContainer {
+  width: 90%;
+  max-width: 800px;
+  background: #ffffff;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  padding: 25px;
+  margin-bottom: 30px;
+  border: 2px solid #e6d4ff; /* lilás claro */
+  animation: fadeIn 0.6s ease-in-out;
+}
+
+#resumoContainer h2 {
+  color: #8e44ad; /* roxo mais vibrante */
+  text-align: center;
+  font-weight: 700;
+  margin-bottom: 15px;
+}
+
+#resumoContainer p {
+  margin: 10px 0;
+  font-size: 16px;
+  color: #4b2a63;
+}
+
+/* ======== BOTÕES ======== */
+.btn-cancelar,
+.btn-confirmar {
+  padding: 12px 22px;
+  border: none;
+  border-radius: 10px;
+  font-weight: 600;
+  cursor: pointer;
+  margin: 12px;
+  font-size: 16px;
+  transition: all 0.25s ease;
+}
+
+/* Botão cancelar */
+.btn-cancelar {
+  background-color: #f3e5f5;
+  color: #6a3c8d;
+}
+
+.btn-cancelar:hover {
+  background-color: #e0c8ea;
+  transform: scale(1.05);
+}
+
+/* Botão confirmar */
+.btn-confirmar {
+  background-color: #9b59b6; /* roxo pastel forte */
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(155, 89, 182, 0.4);
+}
+
+.btn-confirmar:hover {
+  background-color: #8e44ad;
+  transform: scale(1.05);
+}
+
+/* ======== RODAPÉ ======== */
+footer {
+  background-color: #b47ad8;
+  color: white;
+  text-align: center;
+  padding: 1rem;
+  margin-top: 40px;
+  font-size: 0.95rem;
+}
+
+/* ======== ANIMAÇÃO ======== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

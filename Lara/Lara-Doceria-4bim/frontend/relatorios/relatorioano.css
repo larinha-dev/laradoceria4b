@@ -1,0 +1,278 @@
+/* ======== ESTILO GERAL ======== */
+body {
+  font-family: "Poppins", sans-serif;
+  padding: 24px;
+  background: #f5f2fa; /* lilás pastel muito suave */
+  color: #3a245d; /* roxo suave principal */
+}
+
+/* Card principal */
+.card {
+  background: #ffffff;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 22px 28px;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(81, 50, 109, 0.08);
+  border: 1px solid rgba(123, 87, 162, 0.15);
+  animation: fadeIn .4s ease;
+}
+
+/* Animação suave */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======== CABEÇALHO ======== */
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  font-weight: 600;
+  color: #4b2b6d; /* roxo pastel médio */
+}
+
+#reportSubtitle {
+  margin-top: 4px;
+  color: #7a6a93;
+  font-weight: 500;
+}
+
+/* ======== CONTROLES ======== */
+.controls {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+.controls label {
+  font-weight: 500;
+}
+
+.controls select {
+  padding: 6px 10px;
+  border-radius: 6px;
+  border: 1px solid #c9b8e6;
+  background: #faf8ff;
+  font-size: 0.9rem;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  transition: 0.2s ease;
+}
+
+.btn-primary {
+  background: #7b3fa0;
+  color: #fff;
+}
+.btn-primary:hover {
+  background: #69358a;
+}
+
+.btn-secondary {
+  background: #dcd0f0;
+  color: #4b2f6b;
+}
+.btn-secondary:hover {
+  background: #ccbdec;
+}
+
+/* ======== GRÁFICO ======== */
+#chartContainer {
+  background: #ffffff;
+  padding: 18px 20px;
+  border-radius: 14px;
+  box-shadow: 0 4px 14px rgba(81, 50, 109, 0.06);
+  height: calc(100vh - 250px);
+  min-height: 320px;
+  border: 1px solid rgba(155, 123, 186, 0.15);
+}
+
+#ordersChart {
+  width: 100%;
+  height: 100%;
+}
+
+/* ======== SUMÁRIO ======== */
+#summary {
+  margin-top: 45px !important;   /* aumentei o espaçamento */
+  background: #f4effc;
+  border: 1px solid #e1d8f3;
+  padding: 10px 12px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: space-between;
+}
+
+
+#summary strong {
+  color: #5e3d88;
+}
+
+/* ======== TABELA ======== */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 18px;
+  font-size: 0.95rem;
+  background: #ffffff;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 12px rgba(81, 50, 109, 0.04);
+}
+
+thead {
+  background: #e8daf8;
+}
+
+th {
+  padding: 10px;
+  text-align: left;
+  color: #4b2b6d;
+  font-weight: 600;
+  font-size: 0.88rem;
+}
+
+td {
+  padding: 10px;
+  border-bottom: 1px solid #f0e9fb;
+  color: #4b3472;
+}
+
+tr:hover td {
+  background: #faf6ff;
+}
+
+/* ======== IMPRESSÃO A4 ======== */
+.print-only { display: none; }
+
+@page { 
+  size: A4 portrait; 
+  margin: 15mm; 
+}
+
+/* ======== IMPRESSÃO PROFISSIONAL EM A4 ======== */
+@page { 
+  size: A4 portrait;
+  margin: 14mm;
+}
+
+@media print {
+
+  /* Remove tudo que não deve aparecer */
+  body, html {
+    margin: 0 !important;
+    padding: 0 !important;
+    background: #ffffff !important;
+    color: #000;
+    width: 210mm;
+    height: 297mm;
+  }
+
+  .no-print, 
+  .controls, 
+  header, 
+  button, 
+  #printBtn,
+  #refreshBtn {
+    display: none !important;
+  }
+
+  /* Card sem sombra */
+  .card {
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+  }
+
+  /* Cabeçalho */
+  h1 {
+    font-size: 18pt !important;
+    margin: 0 0 4mm 0 !important;
+    color: #000 !important;
+  }
+
+  #reportSubtitle {
+    font-size: 11pt !important;
+    margin-bottom: 6mm !important;
+    color: #444 !important;
+  }
+
+  /* Gráfico ajustado */
+  #chartContainer {
+    height: 115mm !important;  /* Tamanho ideal para caber com tabela */
+    border: none !important;
+    box-shadow: none !important;
+    margin-bottom: 6mm !important;
+    padding: 0 !important;
+  }
+
+  #ordersChart {
+    height: 110mm !important;
+    width: 100% !important;
+  }
+
+  /* Sumário */
+  #summary {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 6mm !important;
+    padding: 0 !important;
+    background: none !important;
+    border: none !important;
+  }
+
+  #summary strong {
+    color: #000 !important;
+  }
+
+  /* Tabela clara e fina */
+  table {
+    font-size: 10pt !important;
+    border-collapse: collapse;
+    width: 100%;
+    margin-top: 6mm;
+  }
+
+  th {
+    background: #eee !important;
+    color: #000 !important;
+    border-bottom: 1px solid #bbb !important;
+    padding: 6px !important;
+    font-weight: 600 !important;
+  }
+
+  td {
+    padding: 6px !important;
+    border-bottom: 1px solid #ddd !important;
+  }
+
+  /* Impede quebra no meio de linhas */
+  table, thead, tbody, tr, td, th {
+    page-break-inside: avoid !important;
+  }
+
+  /* Informações extras ao fim */
+  .print-only {
+    display: block !important;
+    margin-top: 4mm;
+    font-size: 9pt !important;
+    color: #333 !important;
+  }
+}
+

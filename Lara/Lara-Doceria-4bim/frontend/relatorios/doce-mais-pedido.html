@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relatório - Doce Mais Pedido</title>
+
+  <link rel="stylesheet" href="relatorio-doce.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+
+<body>
+  <button onclick="window.history.back()" class="btn btn-ghost">⬅ Voltar</button>
+
+  <div class="card">
+    <h1>Doce Mais Pedido</h1>
+    <p>Ranking dos doces mais vendidos (top 5).</p>
+
+    <div class="controls no-print" style="margin:12px 0">
+      <label for="yearSelect">Ano (opcional):</label>
+      <select id="yearSelect"></select>
+      <button id="refreshBtn" class="btn btn-primary btn-sm">Atualizar</button>
+      <button id="printBtn" class="btn btn-secondary btn-sm">Imprimir (A4)</button>
+    </div>
+
+    <!-- Frase usada SOMENTE NA IMPRESSÃO -->
+    <p id="printYear" class="print-only"></p>
+
+    <div id="chartContainer" style="max-width:720px;margin:12px auto;">
+      <canvas id="doceChart"></canvas>
+    </div>
+  </div>
+
+  <script>
+    const token = localStorage.getItem('token') || '';
+
+    // ⬇️⬇️ NOVO — ESSA FUNÇÃO ATUALIZA A FRASE PARA A IMPRESSÃO
+    function updatePrintYear() {
+      const year = document.getElementById('yearSelect').value;
+      const printText = document.getElementById('printYear');
+
+      if (year === "") {
+        printText.textContent = "Ano (opcional): Todos os anos";
+      } else {
+        printText.textContent = "Ano (opcional): " + year;
+      }
+    }
+
+    function fillYearOptions() {
+      const sel = document.getElementById('yearSelect');
+      const current = new Date().getFullYear();
+
+      const optAll = document.createElement('option');
+      optAll.value = '';
+      optAll.textContent = 'Todos os anos';
+      sel.appendChild(optAll);
+
+      for (let i = 0; i < 5; i++) {
+        const y = current - i;
+        const o = document.createElement('option');
+        o.value = y;
+        o.textContent = y;
+        sel.appendChild(o);
+      }
+    }
+
+    let chart = null;
+
+    async function fetchTopDoce() {
+      const year = document.getElementById('yearSelect').value;
+      const q = year ? `?year=${year}` : '';
+      const res = await fetch(`/relatorios/doce-mais-pedido${q}`, { headers: { 'Authorization': 'Bearer ' + token } });
+
+      if (!res.ok) return [];
+
+      return res.json();
+    }
+
+    function renderChart(items) {
+      const container = document.getElementById('chartContainer');
+      if (!items || items.length === 0) {
+        container.innerHTML = '<p style="padding:36px;color:#6b7280">Sem dados para o período selecionado.</p>';
+        return;
+      }
+
+      container.innerHTML = '<canvas id="doceChart"></canvas>';
+      const labels = items.map(i => i.nome);
+      const values = items.map(i => i.quantidade);
+
+      const colors = ['#4f46e5','#ef4444','#f59e0b','#10b981','#8b5cf6'];
+
+      const ctx = document.getElementById('doceChart').getContext('2d');
+      if (chart) chart.destroy();
+
+      chart = new Chart(ctx, {
+        type: 'pie',
+        data: {
+          labels,
+          datasets: [{ data: values, backgroundColor: colors.slice(0, labels.length) }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { position: 'bottom' } }
+        }
+      });
+
+      document.getElementById('doceChart').style.height = '360px';
+    }
+
+    (function init() {
+      fillYearOptions();
+      updatePrintYear(); // ← já define o texto inicial
+
+      // Atualiza frase SEMPRE que trocar o ano
+      document.getElementById('yearSelect').addEventListener('change', async () => {
+  updatePrintYear(); // atualiza texto da impressão
+
+  const data = await fetchTopDoce(); // busca dados do ano selecionado
+  renderChart(data); // redesenha o gráfico automaticamente
+});
+
+
+      // Botões
+      document.getElementById('refreshBtn').addEventListener('click', async () => {
+        const data = await fetchTopDoce();
+        renderChart(data);
+      });
+
+      document.getElementById('printBtn').addEventListener('click', () => {
+        updatePrintYear(); // ← garante que imprime com o ano certo
+        window.print();
+      });
+
+      // Carregamento inicial
+      fetchTopDoce().then(renderChart);
+    })();
+  </script>
+</body>
+</html>

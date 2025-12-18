@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pagamento PIX</title>
+  <link rel="stylesheet" href="pagamento.css" />
+</head>
+<body>
+  <header>
+    <h1>Pagamento via PIX</h1>
+  </header>
+  <main>
+    <section id="pixContainer">
+      <h2>Escaneie o QR Code com seu banco</h2>
+      <div id="qrCodeArea"></div>
+      <div style="margin: 8px 0; display:flex; gap:10px; align-items:center; justify-content:center;">
+        <label style="font-size:0.95rem;color:#4b236b;">Provedor PIX:</label>
+        <strong style="color:#4b236b;">Banco do Brasil</strong>
+      </div>
+      <p id="valorPix" style="font-weight: bold; font-size: 1.2rem; color: #4b236b;"></p>
+      <p style="font-size:0.9rem;color:#4b236b;margin:2px 0;">✅ O QR gerado já contém o valor do pedido para o app do Banco do Brasil.</p>
+      <p id="pixPayload" style="word-break: break-all; font-size: 0.85rem; background: #f5f5f5; padding: 10px; border-radius: 4px; margin-top: 15px;"></p>
+      <button id="btnVoltar" onclick="window.location.href='../cardapio/cardapio.html'">Voltar ao Cardápio</button>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Doceria</p>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <script src="pagamento.js" defer></script>
+</body>
+</html>

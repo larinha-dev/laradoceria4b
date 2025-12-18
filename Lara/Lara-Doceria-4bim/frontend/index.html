@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Doceria Freddão</title>
+	<link rel="stylesheet" href="index.css">
+</head>
+<body>
+
+	<header>
+  <nav>
+    <ul>
+      <li><a href="index.html">Home</a></li>
+      <li><a href="cardapio/cardapio.html">Cardápio</a></li>
+      <li id="menuCrudLink" style="display:none;"><a href="menu.html">⚙️ MENU CRUDs</a></li>    
+      <li id="usuario-info"></li>
+    </ul>
+  </nav>
+</header>
+
+
+	<section class="hero">
+  <div class="hero-text">
+    <span class="hero-top">Desde 2025</span>
+    <h2 class="hero-title">Doceria Otter Sweet</h2>
+    <p class="hero-desc">Onde o sabor encontra a tradição!</p>
+    <button class="btn btn-hero" onclick="window.location.href='cardapio/cardapio.html'">Cardápio</button>
+  </div>
+</section>
+
+
+	<footer>
+		<p>&copy; 2025 Doceria Otter Sweet - Todos os direitos reservados</p>
+	</footer>
+
+	<!-- Banner de Cookies -->
+	<div id="cookieBanner" class="cookie-banner">
+		<div class="cookie-content">
+			<div class="cookie-text">
+				<h3>🍪 Aviso de Cookies</h3>
+				<p>Usamos cookies para melhorar sua experiência no site. Ao continuar navegando, você concorda com nossa política de cookies.</p>
+			</div>
+			<div class="cookie-buttons">
+				<button id="acceptCookies" class="btn btn-accept">Aceitar</button>
+				<button id="rejectCookies" class="btn btn-reject">Rejeitar</button>
+			</div>
+		</div>
+	</div>
+
+<script src="cookies.js"></script>
+<script>
+window.addEventListener('DOMContentLoaded', async () => {
+    const usuarioInfo = document.getElementById('usuario-info');
+    const menuCrudLink = document.getElementById('menuCrudLink');
+
+    try {
+        // Chama o backend para saber quem está logado
+    const res = await fetch('http://localhost:3001/api/auth/me', {
+      credentials: "include" // IMPORTANTE!
+    });
+
+    const data = await res.json();
+        console.log("ME:", data);
+
+        if (!data.logado) {
+            usuarioInfo.innerHTML = `<a href="login/login.html">Login</a>`;
+            return;
+        }
+
+        // Usuário logado (mostrar nome ao invés do email)
+        usuarioInfo.innerHTML = `
+          <span>Olá, <strong>${data.nome || data.email}</strong></span>
+          <button id="logoutBtn" style="
+            background:none;
+            border:none;
+            color:#fff;
+            font-weight:bold;
+            margin-left:10px;
+            cursor:pointer;
+          ">Sair</button>
+        `;
+
+        // Se for gerente → mostrar menu CRUDs
+        if (data.cargo === "gerente") {
+            menuCrudLink.style.display = 'list-item';
+        } else {
+            menuCrudLink.style.display = 'none';
+        }
+
+        // Logout
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+          // Para limpar cookie httpOnly, você precisa de uma rota /logout
+          await fetch('http://localhost:3001/api/auth/logout', {
+            method: "POST",
+            credentials: "include"
+          });
+
+          window.location.reload();
+        });
+
+    } catch (error) {
+        console.error("Erro ao verificar login:", error);
+        usuarioInfo.innerHTML = `<a href="login/login.html">Login</a>`;
+        menuCrudLink.style.display = 'none';
+    }
+});
+</script>
+
+</body>
+</html>

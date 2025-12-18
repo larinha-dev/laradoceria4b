@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Relatório - Pedidos do Ano</title>
+  <link rel="stylesheet" href="relatorioano.css">
+  <style>
+    /* Visual (tela) */
+    body { font-family: Poppins, sans-serif; padding: 20px; color: #2b1b3a; background: #f7f6fb; }
+    .report-header { display:flex; justify-content:space-between; align-items:center; gap:10px; max-width:1000px; margin: 0 auto; }
+    .report-title { text-align:left; }
+    .controls { display:flex; gap:10px; align-items:center; }
+    .card { max-width:1000px; margin:12px auto; }
+    /* Mantém o gráfico visível sem rolagem: altura relativa à viewport */
+    #chartContainer { background:#fff; padding:16px; border-radius:8px; box-shadow:0 6px 18px rgba(0,0,0,0.06);
+      height: calc(100vh - 160px); min-height: 300px; }
+    #ordersChart { width:100%; height:100%; display:block; }
+    table { width:100%; border-collapse:collapse; margin-top:14px; font-size:0.95rem }
+    th, td { padding:8px 10px; border-bottom:1px solid #eee; text-align:left; }
+    .print-only { display:none; }
+
+    /* Forçar página A4 na impressão e ajustar elementos para caber */
+    @page { size: A4 portrait; margin: 15mm; }
+    @media print {
+      html, body { width: 210mm; height: 297mm; margin: 0; }
+      .controls, .no-print, button { display: none !important; }
+      body { background: #fff; }
+      .card { margin: 0; box-shadow: none; padding: 0; }
+      .report-header { display:block; margin-bottom: 6mm; }
+      h1 { font-size: 18pt; margin: 0 0 4px 0; }
+      #reportSubtitle { font-size: 10pt; margin-bottom: 6px; }
+      #ordersChart { height: 120mm !important; } /* fixa altura do gráfico para caber em A4 */
+      table { font-size: 9pt; margin-top:6mm }
+      th, td { padding:6px 8px; }
+      .print-only { display:block; font-size:9pt; }
+      /* Evitar quebra de tabela entre páginas pequenas */
+      table, thead, tbody, tr, td, th { page-break-inside: avoid; }
+    }
+  </style>
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="card page">
+    <div class="report-header">
+      <div class="report-title">
+        <h1>Relatório de Pedidos do Ano</h1>
+        <p id="reportSubtitle">Ano: <span id="reportYear"></span></p>
+      </div>
+      <div class="controls no-print">
+        <label for="yearSelect">Ano:</label>
+        <select id="yearSelect"></select>
+        <button id="refreshBtn" class="btn btn-primary btn-sm">Atualizar</button>
+        <button id="printBtn" class="btn btn-secondary btn-sm">Imprimir (A4)</button>
+      </div>
+    </div>
+
+    <div id="chartContainer">
+      <canvas id="ordersChart" height="120"></canvas>
+      <div id="summary" style="margin-top:12px; display:flex; justify-content:space-between; align-items:center; gap:10px;">
+        <div>
+          <strong>Total no Ano:</strong> R$ <span id="totalAno">0.00</span>
+        </div>
+        <div class="print-only">
+          <small>Relatório gerado em: <span id="geradoEm"></span></small>
+        </div>
+      </div>
+
+      <table id="monthlyTable" aria-label="Tabela de pedidos por mês">
+        <thead>
+          <tr><th>Mês</th><th>Valor (R$)</th></tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </div>
+
+  <script>
+    // Setup inicial
+    const yearSelect = document.getElementById('yearSelect');
+    const currentYear = new Date().getFullYear();
+    document.getElementById('reportYear').textContent = currentYear;
+    document.getElementById('geradoEm').textContent = new Date().toLocaleString();
+
+    // Popular select com últimos 5 anos
+    for (let y = currentYear; y >= currentYear - 4; y--) {
+      const opt = document.createElement('option'); opt.value = y; opt.text = y; yearSelect.appendChild(opt);
+    }
+    yearSelect.value = currentYear;
+
+    const ctx = document.getElementById('ordersChart').getContext('2d');
+    let ordersChart = null;
+
+    async function fetchReport(year) {
+      // Tenta buscar do backend com token (apenas gerentes devem acessar)
+      const token = localStorage.getItem('token');
+      try {
+          const res = await fetch(`/relatorios/pedidos-ano?year=${year}`, {
+            headers: token ? { 'Authorization': `Bearer ${token}` } : {}
+          });
+
+          if (res.status === 401 || res.status === 403) {
+            alert('Acesso negado: você precisa ser gerente para ver este relatório.');
+            throw new Error('Não autorizado');
+          }
+
+          if (!res.ok) throw new Error('API não disponível');
+          const json = await res.json();
+          return normalizeData(json, year);
+        } catch (e) {
+          console.warn('Falha ao obter dados do backend, usando exemplo:', e.message);
+          return sampleData(year);
+        }
+    }
+
+    // Normaliza vários formatos esperados
+    function normalizeData(payload, year) {
+      // Espera: [{ month: '01', total: 123.45 }, ...] ou { '01':123.45, ... }
+      const months = Array.from({length:12}, (_,i) => (i+1).toString().padStart(2,'0'));
+      const data = months.map(m => 0);
+      if (Array.isArray(payload)) {
+        payload.forEach(item => {
+          const m = (''+ (item.month || item.mes || item.m)).padStart(2,'0');
+          const idx = months.indexOf(m);
+          if (idx >= 0) data[idx] = Number(item.total || item.valor || item.sum || 0);
+        });
+      } else if (payload && typeof payload === 'object') {
+        months.forEach((m, idx) => { data[idx] = Number(payload[m] || 0); });
+      }
+      return { labels: months.map(m=>new Date(year, Number(m)-1).toLocaleString('pt-BR', { month: 'short' })), values: data };
+    }
+
+    function sampleData(year) {
+      // Gera dados fictícios para visualização
+      const vals = [120.5, 230.0, 150.75, 300.0, 210.0, 190.0, 400.0, 350.0, 260.0, 220.0, 180.0, 420.0];
+      return { labels: vals.map((_,i)=>new Date(year,i).toLocaleString('pt-BR',{month:'short'})), values: vals };
+    }
+
+    function renderChart(data) {
+      const total = data.values.reduce((s,v)=>s+v,0);
+      document.getElementById('totalAno').textContent = total.toFixed(2);
+
+      // Preencher tabela
+      const tbody = document.querySelector('#monthlyTable tbody'); tbody.innerHTML = '';
+      data.labels.forEach((label, i) => {
+        const tr = document.createElement('tr');
+        const td1 = document.createElement('td'); td1.textContent = label;
+        const td2 = document.createElement('td'); td2.textContent = data.values[i].toFixed(2);
+        tr.appendChild(td1); tr.appendChild(td2); tbody.appendChild(tr);
+      });
+
+      if (ordersChart) ordersChart.destroy();
+      ordersChart = new Chart(ctx, {
+        type: 'bar',
+        data: { labels: data.labels, datasets: [{ label: 'Valor (R$)', data: data.values, backgroundColor: '#7b3fa0' }] },
+        options: { responsive: true, maintainAspectRatio: false, scales: { y: { beginAtZero:true } } }
+      });
+    }
+
+    async function load() {
+      const year = Number(yearSelect.value);
+      document.getElementById('reportYear').textContent = year;
+      const data = await fetchReport(year);
+      renderChart(data);
+    }
+
+    document.getElementById('refreshBtn').addEventListener('click', load);
+    document.getElementById('printBtn').addEventListener('click', () => { window.print(); });
+
+    // carregar inicial
+    load();
+  </script>
+</body>
+</html>

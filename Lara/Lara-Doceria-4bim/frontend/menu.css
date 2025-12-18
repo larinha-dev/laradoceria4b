@@ -1,0 +1,174 @@
+/* ---------------------- */
+/* Estética geral fofo/candy 💜🍬 */
+/* Arquivo: menu.css */
+/* ---------------------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", "Segoe UI", Roboto, sans-serif;
+}
+
+:root{
+  --bg: #f9e6ff;
+  --accent-1: #c38bff; /* header/footer */
+  --accent-2: #b06cff; /* primary buttons */
+  --muted: #e5ccff;
+  --text: #4b236b;
+  --card-bg: #ffffff;
+  --glass: rgba(255,255,255,0.6);
+}
+
+/* Página */
+body {
+  background: linear-gradient(180deg, #fff7ff 0%, var(--bg) 100%);
+  color: var(--text);
+  padding: 28px;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+}
+
+/* Botão voltar (se mantiver o inline CSS, aqui só para coerência) */
+#voltar-btn {
+  position: fixed;
+  top: 16px;
+  left: 16px;
+  background: #ff6b6b;
+  color: #4a0769;
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 700;
+  font-size: 14px;
+  box-shadow: 0 6px 18px rgba(100, 2, 142, 0.12);
+  z-index: 1100;
+  transition: transform .15s ease, box-shadow .15s ease;
+}
+#voltar-btn:hover { transform: translateY(-2px); box-shadow: 0 10px 22px rgba(128, 14, 185, 0.16); }
+
+/* Cabeçalho */
+header {
+  text-align: center;
+  background: var(--accent-1);
+  padding: 28px 20px;
+  border-radius: 18px;
+  color: white;
+  font-weight: 700;
+  box-shadow: 0 8px 22px rgba(110,0,150,0.18);
+  max-width: 1100px;
+  margin: 40px auto 18px;
+  position: relative;
+}
+header h1 {
+  font-size: 2.1rem;
+  letter-spacing: 0.4px;
+}
+
+/* Container principal */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+}
+
+/* Cards do menu */
+.menu-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 18px;
+  margin-top: 24px;
+  align-items: stretch;
+}
+
+/* Cada cartão */
+.menu-card {
+  background: linear-gradient(180deg, var(--card-bg) 0%, #fff 60%);
+  border: 2px solid var(--muted);
+  border-radius: 16px;
+  padding: 18px;
+  text-align: center;
+  transition: transform .18s ease, box-shadow .18s ease;
+  box-shadow: 0 6px 20px rgba(120,0,150,0.06);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 140px;
+}
+
+/* Emoji/título */
+.menu-card h2 {
+  font-size: 1.25rem;
+  color: var(--accent-1);
+  margin-bottom: 12px;
+}
+
+/* Link como botão */
+.menu-card a {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+  background: linear-gradient(180deg, #b06cff 0%, #8d55d4 100%);
+  color: #fff;
+  padding: 10px 14px;
+  border-radius: 12px;
+  font-weight: 600;
+  box-shadow: 0 6px 18px rgba(96, 30, 150, 0.12);
+  transition: transform .15s ease, opacity .12s ease;
+}
+.menu-card a:hover {
+  transform: translateY(-4px) scale(1.02);
+  opacity: 0.98;
+}
+
+/* Efeito hover no cartão */
+.menu-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 18px 40px rgba(100, 0, 150, 0.12);
+  border-color: #d6b8ff;
+}
+
+/* Ícone grande no canto (opcional) */
+.menu-card::before{
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+
+/* Layout responsivo para header+cards alinhados com botão voltar */
+body { padding-bottom: 80px; }
+
+/* Rodapé */
+footer {
+  margin-top: 28px;
+  text-align: center;
+  padding: 14px;
+  background: var(--accent-1);
+  color: white;
+  border-radius: 12px;
+  max-width: 1100px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Pequenas correções / utilitários */
+.center {
+  display:flex;
+  justify-content:center;
+  align-items:center;
+}
+
+/* Acessibilidade: foco visível */
+a:focus, button:focus {
+  outline: 3px solid rgba(150,80,240,0.18);
+  outline-offset: 4px;
+  border-radius: 10px;
+}
+
+/* Mobile tweaks */
+@media (max-width: 520px) {
+  header h1 { font-size: 1.4rem; padding: 6px 8px; }
+  .menu-card { padding: 14px; min-height: 120px; }
+  .menu-card a { width: 100%; }
+  #voltar-btn { top: 10px; left: 10px; padding: 8px 10px; font-size: 13px; }
+}

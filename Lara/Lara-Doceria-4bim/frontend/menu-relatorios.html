@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Relatórios - Menu</title>
+  <link rel="stylesheet" href="menu.css">
+  <style>
+    .reports-container { max-width:800px; margin:80px auto; text-align:center; }
+    .reports-buttons { display:flex; gap:20px; justify-content:center; margin-top:30px; }
+    .reports-buttons a { display:inline-block; padding:14px 22px; background:#7b3fa0; color:#fff; border-radius:10px; text-decoration:none; font-weight:700; }
+    .reports-buttons a:hover { background:#9d4cff; }
+  </style>
+</head>
+<body>
+  <button id="voltar-btn" onclick="window.location.href='menu.html'">⬅ Voltar</button>
+  <div class="reports-container">
+    <h1>Relatórios</h1>
+    <p>Escolha um relatório para visualizar:</p>
+
+    <div class="reports-buttons">
+      <a href="relatorios/pedidos-ano.html">📅 Relatório de Pedidos do Ano</a>
+      <a href="relatorios/doce-mais-pedido.html">🏆 Doce Mais Pedido</a>
+    </div>
+  </div>
+
+  <script>
+    // Proteção: apenas gerentes podem abrir esta página
+    window.addEventListener('DOMContentLoaded', async () => {
+      const token = localStorage.getItem('token');
+      if (!token) { alert('Acesso negado'); window.location.href='index.html'; return; }
+      try {
+        const res = await fetch('/gerente', { headers: { 'Authorization': `Bearer ${token}` } });
+        if (!res.ok) { alert('Acesso restrito a gerentes'); window.location.href='index.html'; }
+      } catch (e) { console.error(e); alert('Erro ao verificar permissões'); window.location.href='index.html'; }
+    });
+  </script>
+</body>
+</html>

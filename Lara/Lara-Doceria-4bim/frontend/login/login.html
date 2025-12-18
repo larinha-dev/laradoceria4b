@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+  <link rel="stylesheet" href="login.css">
+</head>
+<body>
+  <div class="container">
+    <h1>Entrar</h1>
+
+    <form id="loginForm" class="box">
+      <input type="email" id="email" placeholder="Email" required />
+      <input type="password" id="senha" placeholder="Senha" required />
+      <button type="submit">Entrar</button>
+    </form>
+    
+    <p class="register-text">Não tem conta? <a href="register.html">Cadastrar</a></p>
+  </div>
+
+  <script>
+    const form = document.getElementById('loginForm');
+    const emailInput = document.getElementById('email');
+    const senhaInput = document.getElementById('senha');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+
+      // Evita enviar dados vazios por acidente
+      const email = emailInput.value.trim();
+      const senha = senhaInput.value.trim();
+
+      if (!email || !senha) {
+        alert("Preencha todos os campos!");
+        return;
+      }
+
+      try {
+        const res = await fetch('http://localhost:3001/api/auth/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ email, senha })
+        });
+
+        const data = await res.json();
+
+        if (!res.ok) {
+          alert(data.error || data.message || "Erro ao fazer login.");
+          return;
+        }
+
+        // Se chegou até aqui, o login deu certo
+        alert("Login realizado com sucesso!");
+
+        localStorage.setItem('token', data.token);
+        localStorage.setItem('usuario', JSON.stringify(data.user));
+
+        window.location.href = '/index.html';
+
+      } catch (error) {
+        console.error(error);
+        alert("Erro ao conectar ao servidor.");
+      }
+    });
+  </script>
+</body>
+</html>

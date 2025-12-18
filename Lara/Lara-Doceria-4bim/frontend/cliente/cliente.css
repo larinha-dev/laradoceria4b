@@ -1,0 +1,209 @@
+/* ---------------------- */
+/* Estilo geral fofinho 💜 */
+/* ---------------------- */
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: #f6e9ff;
+  color: #4a2e63;
+  padding: 20px;
+}
+
+/* ---------------------- */
+/* Cabeçalho */
+/* ---------------------- */
+header {
+  text-align: center;
+  background: #b47cff;
+  padding: 20px;
+  border-radius: 15px;
+  color: white;
+  box-shadow: 0 4px 12px rgba(100, 0, 140, 0.2);
+}
+
+header h1 {
+  font-size: 2.3rem;
+  font-weight: 700;
+}
+
+/* ---------------------- */
+/* Formulário */
+/* ---------------------- */
+
+.form-section {
+  background: #ffffff;
+  padding: 25px;
+  margin-top: 25px;
+  border-radius: 20px;
+  box-shadow: 0 3px 10px rgba(80, 0, 120, 0.1);
+  border: 2px solid #e7d1ff;
+}
+
+.form-section h2 {
+  color: #7a42c8;
+  margin-bottom: 15px;
+}
+
+.search-container {
+  margin-bottom: 20px;
+}
+
+.search-input-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+input[type="number"],
+input[type="text"] {
+  border: 2px solid #cda6ff;
+  padding: 10px;
+  border-radius: 10px;
+  width: 250px;
+  transition: 0.2s;
+  outline: none;
+}
+
+input:focus {
+  border-color: #8a44e3;
+  box-shadow: 0 0 8px #cfb2ff;
+}
+
+/* ---------------------- */
+/* Fieldset */
+/* ---------------------- */
+
+fieldset {
+  border: 2px dashed #d4b5ff;
+  padding: 20px;
+  border-radius: 15px;
+  margin-top: 15px;
+}
+
+legend {
+  padding: 5px 12px;
+  background: #c79aff;
+  border-radius: 10px;
+  color: white;
+  font-weight: bold;
+}
+
+/* ---------------------- */
+/* Botões */
+/* ---------------------- */
+
+button {
+  padding: 10px 18px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: 0.2s;
+}
+
+/* Estilo de cada tipo */
+.btn-icon {
+  background: #d9b8ff;
+  color: #4b2c6b;
+}
+
+.btn-primary {
+  background: #a068ff;
+  color: white;
+}
+
+.btn-secondary {
+  background: #7e5ac4;
+  color: white;
+}
+
+.btn-danger {
+  background: #ff6b9c;
+  color: white;
+}
+
+.btn-save {
+  background: #59d18c;
+  color: white;
+}
+
+.btn-cancel {
+  background: #c9badf;
+  color: #4a2e63;
+}
+
+/* Hover */
+button:hover {
+  opacity: 0.85;
+  transform: scale(1.03);
+}
+
+/* ---------------------- */
+/* Tabela */
+/* ---------------------- */
+
+.table-container {
+  margin-top: 25px;
+  overflow-x: auto;
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  border: 2px solid #e6ceff;
+  box-shadow: 0 2px 8px rgba(120, 0, 160, 0.1);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  color: #4a2e63;
+}
+
+thead {
+  background: #c5a2ff;
+  color: white;
+}
+
+th, td {
+  padding: 12px 10px;
+  border-bottom: 2px solid #f0e2ff;
+}
+
+tr:hover {
+  background: #f7efff;
+}
+
+/* ---------------------- */
+/* Rodapé */
+/* ---------------------- */
+
+footer {
+  margin-top: 30px;
+  text-align: center;
+  padding: 15px;
+  background: #b47cff;
+  color: white;
+  border-radius: 15px;
+}
+
+/* ---------------------- */
+/* Mensagens */
+/* ---------------------- */
+
+.message-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background: #a772ff;
+  color: white;
+  padding: 12px 18px;
+  border-radius: 12px;
+  display: none;
+  box-shadow: 0 3px 10px rgba(60, 0, 80, 0.3);
+}

@@ -1,0 +1,192 @@
+/* ======== ESTILO GERAL (TELA) ======== */
+body {
+  font-family: "Poppins", sans-serif;
+  padding: 40px;
+  text-align: center;
+  background: #f5f2fa; /* lilás pastel suave */
+  color: #3a245d;
+}
+
+/* Card Principal */
+.card {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 32px 38px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 6px 20px rgba(81, 50, 109, 0.08);
+  border: 1px solid rgba(123, 87, 162, 0.15);
+  animation: fadeIn .4s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ======== Botão Voltar ======== */
+button {
+  background: #7b3fa0;
+  color: white;
+  border: none;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  cursor: pointer;
+  margin-bottom: 22px;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  background: #69358a;
+}
+
+/* ======== Títulos e textos ======== */
+h1 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 16px;
+  color: #4b2b6d;
+}
+
+p {
+  font-size: 1.05rem;
+  color: #5c4578;
+}
+
+/* ======== Área onde o gráfico será inserido ======== */
+#chartContainer {
+  margin-top: 34px;
+  background: #ffffff;
+  padding: 26px;
+  border-radius: 12px;
+  box-shadow: 0 4px 14px rgba(81, 50, 109, 0.06);
+  border: 1px solid rgba(155, 123, 186, 0.15);
+}
+
+#chartContainer canvas {
+  width: 100% !important;
+  max-height: 460px;
+}
+
+
+/* ============================================================
+   🔽🔽🔽   IMPRESSÃO A4 PROFISSIONAL   🔽🔽🔽
+   ============================================================ */
+
+@page {
+  size: A4 portrait;
+  margin: 15mm;
+}
+
+@media print {
+
+  /* Remove cores de fundo e sombras (economiza tinta e deixa elegante) */
+  body {
+    background: #ffffff !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #000 !important;
+  }
+
+  button {
+    display: none !important;
+  }
+
+  .card {
+    background: #ffffff !important;
+    border: none !important;
+    box-shadow: none !important;
+    margin: 0 !important;
+    padding: 0 !important;
+  }
+
+  /* Cabeçalho mais elegante na folha */
+  h1 {
+    font-size: 20pt !important;
+    margin-top: 0 !important;
+    margin-bottom: 6mm !important;
+    color: #000 !important;
+  }
+
+  p {
+    font-size: 12pt !important;
+    margin-bottom: 8mm !important;
+    color: #333 !important;
+  }
+
+  /* Gráfico ocupa espaço perfeito dentro da folha */
+  #chartContainer {
+    border: none !important;
+    box-shadow: none !important;
+    margin-top: 0 !important;
+    padding-top: 4mm !important;
+    padding-bottom: 4mm !important;
+  }
+
+  #chartContainer canvas {
+    max-height: 130mm !important; /* encaixa perfeitamente na folha A4 */
+    margin-bottom: 10mm !important;
+  }
+
+  /* Remove qualquer excesso */
+  * {
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+}
+
+/* ======== SELECT (Ano / Todos os anos) ======== */
+.controls select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  background: #f7f4ff;
+  border: 1px solid #c7b5e6;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.95rem;
+  color: #4a2a78;
+  cursor: pointer;
+  transition: 0.2s ease;
+  font-weight: 500;
+
+  /* ícone ▼ customizado */
+  background-image: url("data:image/svg+xml,%3Csvg fill='purple' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cpolygon points='5,7 15,7 10,13'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-size: 14px;
+  background-position: right 12px center;
+  padding-right: 38px;
+}
+
+.controls select:hover {
+  background: #f0ebff;
+  border-color: #b39de0;
+}
+
+.controls select:focus {
+  outline: none;
+  border-color: #8f6cd9;
+  box-shadow: 0 0 0 3px rgba(150, 110, 220, 0.25);
+}
+
+.print-only {
+  display: none;
+}
+
+@media print {
+  .print-only {
+    display: block !important;
+    font-size: 12pt;
+    text-align: left;
+    margin-bottom: 8mm;
+    color: #000;
+  }
+}
+
+@media print {
+  .no-print {
+    display: none !important;
+  }
+}
